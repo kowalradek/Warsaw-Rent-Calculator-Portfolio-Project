@@ -1,6 +1,8 @@
 # 🏙️ Warsaw Real Estate: Fair Price Estimator
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-link.streamlit.app) *(<- Replace with your actual link)*
+## Check out the app by clicking the link
+
+[![Streamlit App]([https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-link.streamlit.app](https://warsaw-rent-calculator-portfolio-project-dpnlsnz6ty9gczallmogc.streamlit.app/#warsaw-fair-market-rent-estimator)) 
 
 ### Overview
 Welcome to my end-to-end Machine Learning project analyzing the Warsaw real estate market. The rental market in Warsaw is famously chaotic, with prices fluctuating wildly based on micro-locations, transit access, and varying building standards. 
@@ -10,7 +12,7 @@ This project was created to bring transparency to the market. I built an automat
 ### The Questions
 Before building the predictive model, I sought to answer three core questions about the Warsaw market:
 1. **What is the true mathematical value of the "Metro Premium"?** Exactly how much does the price drop for every kilometer you move away from a subway station?
-2. **How does "Prestige" quantify into PLN?** What is the exact price gap between highly desired districts (like Śródmieście and Mokotów) compared to the city outskirts?
+2. **How does "Prestige" quantify into PLN?** What is the exact price gap between highly desired districts (like Śródmieście and Powiśle) compared to the city outskirts?
 3. **Can we predict a fair price with high accuracy using only the most critical, easily available features** (Size, District, and Metro Proximity)?
 
 ### Methodology & The Machine Learning Pipeline
@@ -571,5 +573,23 @@ except FileNotFoundError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 ```
+### 📈 Phase 6: Key Findings & Results
+The Random Forest model successfully learned the complex, non-linear pricing dynamics of the Warsaw real estate market. 
+
+**Business Insights Extracted:**
+1. **The "Metro Premium" is Real, but Decays Fast:** The model revealed a sharp price drop within the first 1.5 km of a metro station. Beyond 2 km, the impact of the subway on the price flattens out, and district prestige takes over as the primary price driver.
+2. **Diminishing Returns on Square Footage:** As apartment size increases beyond 60m², the price-per-square-meter drops significantly. The model captures this penalty, which linear models completely missed.
+3. **Outlier Detection:** By calculating the "Fair Market Rent," the Streamlit app successfully flags deeply undervalued listings (potential deals) and drastically overvalued listings (tourist traps).
+
+---
+
+### 🚀 How to Run the Project Locally
+
+If you want to run the scraper, train the model, or boot up the Streamlit app on your local machine, follow these steps:
+
+**1. Clone the repository:**
+```bash
+git clone [https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project.git](https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project.git)
+cd warsaw-real-estate-ai
 
 
