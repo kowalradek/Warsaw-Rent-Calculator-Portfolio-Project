@@ -1,63 +1,89 @@
+"""
+Streamlit Web Application for Warsaw Real Estate Predictor.
+Provides an interactive UI for users to input apartment parameters, 
+reconstructs the one-hot encoded feature vector, and serves real-time 
+inference from the serialized Random Forest model.
+"""
+
 import streamlit as st
 import pandas as pd
-import numpy as np
 import joblib
 
-# 1. Page Configuration
-st.set_page_config(page_title="Warsaw Rent Predictor", page_icon="🏙️")
+# --- APP CONFIGURATION ---
+st.set_page_config(page_title="Warsaw Rent Predictor", page_icon="🏙️", layout="centered")
 st.title("🏙️ Warsaw Fair Market Rent Estimator")
 st.markdown("""
-This tool uses a **Random Forest Machine Learning model** to estimate the fair rental price 
+This tool utilizes a **Random Forest Regressor** to estimate the fair monthly rental price 
 of apartments in Warsaw based on real-time market data.
 """)
 
-# 2. Load the AI Model
+# --- ASSET LOADING & CACHING ---
 @st.cache_resource
 def load_assets():
-    # Load the Random Forest model and the exact columns it was trained on
+    """
+    Loads serialized model and feature layout. 
+    Cached to prevent memory overhead on subsequent UI interactions.
+    """
     model = joblib.load('warsaw_rent_model.pkl')
     features = joblib.load('model_features.pkl')
     
-    # Extract just the district names for the dropdown menu
+    # Dynamically extract and alphabetize district names from the feature array
     districts = [f.replace('Distr_', '') for f in features if f.startswith('Distr_')]
-    districts.sort() # Alphabetize for the user
+    districts.sort() 
     
     return model, features, districts
 
 try:
-    model, features, districts = load_assets()
+    rf_model, expected_features, available_districts = load_assets()
 
-    # 3. User Interface (Sidebar)
-    st.sidebar.header("Apartment Features")
+    # --- USER INTERFACE (SIDEBAR) ---
+    st.sidebar.header("Apartment Parameters")
+    
+    # Input widgets
     size = st.sidebar.slider("Size (m²)", min_value=15, max_value=150, value=45, step=1)
     metro_dist = st.sidebar.slider("Distance to Metro (km)", min_value=0.0, max_value=10.0, value=1.0, step=0.1)
-    district = st.sidebar.selectbox("Select District", districts)
+    district = st.sidebar.selectbox("Select District", available_districts)
 
-    # 4. Prediction Logic
+    # --- PORTFOLIO CREDIT (NEW) ---
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("👨‍💻 About This Project")
+    st.sidebar.info("""
+    This application is an end-to-end Machine Learning portfolio project. 
+    It features a custom web scraper, geospatial feature engineering, and a Random Forest prediction pipeline.
+    
+    * **Created by:** [Your Name]
+    * **Source Code:** [GitHub Repository](#)
+    * **Connect:** [LinkedIn Profile](#)
+    """)
+
+    # --- INFERENCE ENGINE ---
     if st.button("Calculate Estimated Rent", type="primary"):
-        # Create a dictionary where every column is set to 0
-        input_data = {feat: 0 for feat in features}
         
-        # Fill in the user's specific inputs
+        # 1. Initialize a zeroed-out dictionary matching the model's exact feature layout
+        input_data = {feat: 0 for feat in expected_features}
+        
+        # 2. Populate continuous numerical features
         input_data['Size_m2'] = size
         input_data['Dist_to_Metro_km'] = metro_dist
         
-        # Switch the selected district's value to 1 (One-Hot Encoding)
+        # 3. Apply One-Hot Encoding for the categorical district selection
         selected_district_col = f"Distr_{district}"
         if selected_district_col in input_data:
             input_data[selected_district_col] = 1
             
-        # Convert to a DataFrame so the model can read it
+        # 4. Cast to DataFrame for model ingestion
         input_df = pd.DataFrame([input_data])
         
-        # Make the prediction
-        prediction = model.predict(input_df)[0]
+        # 5. Execute prediction
+        prediction = rf_model.predict(input_df)[0]
+        price_per_sqm = prediction / size
         
-        # 5. Display Results
-        st.balloons()
-        st.success(f"### Estimated Monthly Rent: **{int(prediction):,} PLN**")
-        st.info(f"**Breakdown:** {size} m² in {district} ({metro_dist} km from Metro) | Approx. **{int(prediction/size)} PLN/m²**")
-        st.caption("⚠️ *Estimates reflect base rent and may not include administrative fees (czynsz).*")
+        # --- DISPLAY RESULTS ---
+        st.success(f"### Estimated Base Rent: **{int(prediction):,} PLN** / month")
+        st.info(f"**Appraisal Breakdown:** {size} m² in {district} ({metro_dist} km to Metro) | Approx. **{int(price_per_sqm)} PLN/m²**")
+        st.caption("⚠️ *Disclaimer: Estimates reflect base market rent and may not include administrative building fees (czynsz administracyjny) or utilities.*")
 
+except FileNotFoundError:
+    st.error("System Error: Model assets not found. Ensure 'warsaw_rent_model.pkl' and 'model_features.pkl' are located in the deployment directory.")
 except Exception as e:
-    st.error(f"System Error: {e}. Ensure the .pkl files are in the same folder as this script.")
+    st.error(f"An unexpected error occurred: {e}")
