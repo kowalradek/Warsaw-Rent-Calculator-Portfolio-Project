@@ -53,7 +53,7 @@ try:
     
     * **Created by:** [Radosław Kowal]
     * **Code and Data:** [GitHub Repository](https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project)
-    * **Connect:** [LinkedIn Profile](www.linkedin.com/in/radosław-kowal-098663300)
+    * **Connect:** [LinkedIn Profile](https://www.linkedin.com/in/rados%C5%82aw-kowal-098663300?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BK6ICEvDeTOuc4F2xNjoi0g%3D%3D)
     """)
 
     # --- INFERENCE ENGINE ---
