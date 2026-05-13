@@ -577,14 +577,3 @@ except FileNotFoundError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 ```
-
-### 🚀 How to Run the Project Locally
-
-If you want to run the scraper, train the model, or boot up the Streamlit app on your local machine, follow these steps:
-
-**1. Clone the repository:**
-```bash
-git clone [https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project.git](https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project.git)
-cd warsaw-real-estate-ai
-
-
