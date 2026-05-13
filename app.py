@@ -51,9 +51,9 @@ try:
     This application is an end-to-end Machine Learning portfolio project. 
     It features a custom web scraper, geospatial feature engineering, and a Random Forest prediction pipeline.
     
-    * **Created by:** [Your Name]
-    * **Source Code:** [GitHub Repository](#)
-    * **Connect:** [LinkedIn Profile](#)
+    * **Created by:** [Radosław Kowal]
+    * **Code and Data:** [GitHub Repository](https://github.com/kowalradek/Warsaw-Rent-Calculator-Portfolio-Project)
+    * **Connect:** [LinkedIn Profile](www.linkedin.com/in/radosław-kowal-098663300)
     """)
 
     # --- INFERENCE ENGINE ---
