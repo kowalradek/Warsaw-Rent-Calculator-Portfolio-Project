@@ -2,7 +2,7 @@
 
 ## Check out the app by clicking the link
 
-[![Streamlit App]([https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-link.streamlit.app](https://warsaw-rent-calculator-portfolio-project-dpnlsnz6ty9gczallmogc.streamlit.app/#warsaw-fair-market-rent-estimator)) 
+[![Streamlit App]](https://warsaw-rent-calculator-portfolio-project-dpnlsnz6ty9gczallmogc.streamlit.app/#warsaw-fair-market-rent-estimator)) 
 
 ### Overview
 Welcome to my end-to-end Machine Learning project analyzing the Warsaw real estate market. The rental market in Warsaw is famously chaotic, with prices fluctuating wildly based on micro-locations, transit access, and varying building standards. 
