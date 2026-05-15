@@ -6,7 +6,7 @@
 
 # Warsaw Real Estate Price Predictor
 
-An end-to-end ML pipeline that scrapes live Warsaw apartment listings, cleans the data, and uses a Random Forest model to predict fair market rent. The final model is deployed as an interactive Streamlit app.
+An end-to-end ML pipeline that scrapes live Warsaw apartment listings, (nieruchomosci-online.pl) cleans the data, and uses a Random Forest model to predict fair market rent. The final model is deployed as an interactive Streamlit app.
 
 ## Key Insights
 * **The Metro Premium:** Apartments within 500m of a metro station rent for 15–20% more than similar units 2+ km away.
