@@ -4,37 +4,21 @@
 
 [[Fair Price Estimator]](https://warsaw-rent-calculator-portfolio-project-dpnlsnz6ty9gczallmogc.streamlit.app/#warsaw-fair-market-rent-estimator) 
 
-### Overview
-Welcome to my end-to-end Machine Learning project analyzing the Warsaw real estate market. The rental market in Warsaw is famously chaotic, with prices fluctuating wildly based on micro-locations, transit access, and varying building standards. 
+# Warsaw Real Estate Price Predictor
 
-This project was created to bring transparency to the market. I built an automated pipeline that scrapes real-time apartment listings, cleans and standardizes the data, and powers a Machine Learning algorithm to predict the "Fair Market Price" of any apartment in the city. The final product is deployed as an interactive web application, allowing renters and landlords to instantly appraise properties.
+An end-to-end ML pipeline that scrapes live Warsaw apartment listings, cleans the data, and uses a Random Forest model to predict fair market rent. The final model is deployed as an interactive Streamlit app.
 
-### Key Findings & Results
+## Key Insights
+* **The Metro Premium:** Apartments within 500m of a metro station rent for 15–20% more than similar units 2+ km away.
+* **Location Baseline:** Central districts (Śródmieście, Mokotów) carry a ~1,200 PLN baseline premium over peripheral areas (Białołęka, Wawer) for the exact same footprint.
+* **Non-Linear Pricing:** Price per square meter isn't flat. Micro-apartments (<30m²) cost the most per m², while the marginal cost of extra space drops sharply after 60m².
+* **Performance:** Mapping 130+ messy micro-neighborhoods into Warsaw's 18 official districts resolved overfitting. The final model explains 75% of market variance (R² = 0.75).
 
-Through the process of exploratory data analysis and model training, several critical insights were uncovered regarding the Warsaw rental market:
-
-*   **The "Metro Premium" is Quantifiable:** The model revealed a sharp price decay as distance from a metro station increases. On average, apartments within **500 meters** of a metro station command a **15-20% price premium** compared to similar units located 2+ kilometers away.
-*   **District Hierarchy & Prestige:** Geography remains the strongest predictor of price. **Śródmieście (City Center)** and **Mokotów** consistently show the highest "prestige coefficients," adding a baseline premium of over **1,200 PLN** to the monthly rent compared to peripheral districts like **Białołęka** or **Wawer**, even when apartment size is identical.
-*   **Non-Linear Pricing Dynamics:** The analysis confirmed that price-per-square-meter is not constant. Smaller "micro-apartments" (under 30m²) exhibit the highest cost density, while the marginal cost of additional space decreases significantly after the **60m² threshold**. This non-linearity is why the **Random Forest Regressor** outperformed the initial Linear Regression model.
-*   **Model Accuracy:** By standardizing 130+ micro-locations into 18 official districts, the model's reliability significantly improved. The final Random Forest model achieved an **R² score of ~0.75**, meaning it explains 75% of the variance in Warsaw rental prices, with a Mean Absolute Error (MAE) that effectively captures the "Fair Market" range.
----
-
-### Methodology & The Machine Learning Pipeline
-This project goes beyond basic data analysis into predictive modeling:
-* **Data Collection:** Built a custom web scraper using `BeautifulSoup` to extract unstructured real estate listings, parse them, and geocode locations.
-* **Feature Engineering:** Standardized the chaotic real estate naming conventions, mapping over 130+ specific micro-neighborhoods (e.g., "Służewiec", "Kabaty") into Warsaw's **18 official districts** to prevent model overfitting and increase reliability.
-* **Model Selection:** Initially tested a Multiple Linear Regression model, but discovered that apartment pricing is strictly non-linear (e.g., the first 20m² cost proportionally more than the next 50m²). 
-* **The Final Brain:** Upgraded to a **Random Forest Regressor** (an ensemble of 200 decision trees) which successfully captured the non-linear "vibe" and scaling of the market, achieving a strong $R^2$ score and significantly lowering the Mean Absolute Error (MAE).
-
-### Tools I Used
-For this deep dive into data engineering and machine learning, I harnessed the following stack:
-* **Python:** The backbone of the entire project, handling everything from scraping to deployment.
-* **Scikit-Learn:** The Machine Learning library used to train the Random Forest, split the testing data, and measure accuracy metrics (R-squared, MAE).
-* **BeautifulSoup & Requests:** Used to scrape and parse the live HTML data from real estate portals.
-* **Pandas & NumPy:** Used for heavy data manipulation, outlier removal, and One-Hot Encoding the district variables.
-* **Streamlit:** The framework used to translate my Python script into a fully interactive, user-friendly web interface.
-* **Streamlit Community Cloud:** Used to host the live application on the public internet.
-* **Git & GitHub:** Essential for version control, project tracking, and showcasing the codebase.
+## Architecture & Tech Stack
+* **Scraper (`BeautifulSoup`, `Requests`):** A custom crawler that navigates dynamic pagination. Features O(1) deduplication using Python Sets (to handle shifting pages), `try-except` fallback for malformed HTML, and randomized delays with spoofed User-Agents to bypass rate limits.
+* **Data Processing (`Pandas`, `NumPy`):** Handles outlier removal, standardization, and one-hot encoding for the geographic features.
+* **Modeling (`Scikit-Learn`):** Swapped an initial Linear Regression model for a **Random Forest Regressor** (200 trees) because it natively handles the non-linear relationship between square footage and price.
+* **Deployment:** Built the user interface in **Streamlit** and hosted it on Streamlit Community Cloud for live, real-time appraisals.
 
 ### Phase 1: Automated Data Extraction & Multi-Page Scraping
 The foundation of this predictive model relies on a robust, real-world dataset. To gather this, I built an automated Python web scraper using `requests` and `BeautifulSoup` designed to navigate through hundreds of pages of real estate listings.
